@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				padding: 0;
+				margin: 0;
+			}
+
+			html,
+			body,
+			#map {
+				height: 100%;
+			}
+		</style>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+		<script src="https://cdn.bootcss.com/proj4js/2.4.3/proj4.js"></script>
+		<script src="https://cdn.bootcss.com/proj4leaflet/1.0.1/proj4leaflet.min.js"></script>
+		<script type="text/javascript" src='chinaGao.js'></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+		<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+		<script src="./js/leaflet.hotline.js"></script>
+		
+	</head>
+
+	<body>
+		<div id='map'></div>
+	</body>
+	<script type="text/javascript">
+		var normalm = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+		var imgm = L.tileLayer.chinaProvider('GaoDe.Satellite.Map', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+		var imga = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+
+		var normal = L.layerGroup([normalm]),
+			image = L.layerGroup([imgm, imga]);
+
+		var baseLayers = {
+			"地图": normal,
+			"卫星": image,
+		}
+
+		var map = L.map("map", {
+			center: [29.62275, 106.492569],
+			zoom: 18,
+			layers: [normal],
+			zoomControl: false
+		});
+
+		L.control.layers(baseLayers, null).addTo(map);
+		L.control.zoom({
+			zoomInTitle: '放大',
+			zoomOutTitle: '缩小'
+		}).addTo(map);
+		
+		var marker = L.marker([29.62275, 106.492569]).addTo(map);
+		// var circle = L.circle([29.62275, 106.492569], {
+		//     color: 'red',
+		//     fillColor: '#f03',
+		//     fillOpacity: 0.5,
+		//     radius: 500
+		// }).addTo(map);
+		// var polygon = L.polygon([
+		//     [29.62275, 106.492569],
+		//     [29.52275, 106.792569],
+		//     [29.62275, 106.992569]
+		// ]).addTo(map);
+		
+					map.pm.setLang('en');
+					map.pm.addControls({
+					  position: 'topleft'
+					});
+					map.pm.enableDraw('Marker', { snappable: false });
+					map.pm.disableDraw('Marker');
+					
+					// marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+					// circle.bindPopup("I am a circle.");
+					// polygon.bindPopup("<h1>dd</h1>");
+					
+					// var popup = L.popup()
+					//     .setLatLng([29.62275, 106.492569])
+					//     .setContent("I am a standalone popup111.")
+					//     .openOn(map);
+						
+					// 	var popup = L.popup();
+						
+					// 	function onMapClick(e) {
+					// 	    popup
+					// 	        .setLatLng(e.latlng)
+					// 	        .setContent("You clicked the map at " + e.latlng.toString())
+					// 	        .openOn(map);
+					// 	}
+						
+						// map.on('click', onMapClick);
+						
+						// create a red polygon from an array of LatLng points
+						var latlngs = [[29.62275, 106.491569],[29.72275, 106.498569],[29.52275, 106.492569],[29.62275, 106.496569]];
+						
+						// var polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
+						
+						// zoom the map to the polygon
+						// map.fitBounds(polygon.getBounds());
+						var data = [
+						  [
+						    29.62275,
+						    6.993713,
+						    106.492569
+						  ],[
+						    29.72275,
+						    6.993713,
+						    106.891569
+						  ],[
+						    29.82275,
+						    6.993713,
+						    107.491569
+						  ],
+						 ]
+						var hotlineLayer = L.hotline(data).addTo(map);
+	</script>
+
+</html>
