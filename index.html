@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				padding: 0;
+				margin: 0;
+			}
+
+			html,
+			body,
+			#map {
+				height: 100%;
+			}
+		</style>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+		<script src="https://cdn.bootcss.com/proj4js/2.4.3/proj4.js"></script>
+		<script src="https://cdn.bootcss.com/proj4leaflet/1.0.1/proj4leaflet.min.js"></script>
+		<script type="text/javascript" src='chinaGao.js'></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+		<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+		<script src="js/leaflet-heatmap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/L.tilelayer.drawimg_o.js" type="text/javascript" charset="utf-8"></script>
+		<script src="json/qiwendata.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id='map'></div>
+	</body>
+	<script type="text/javascript">
+		var normalm = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+		var imgm = L.tileLayer.chinaProvider('GaoDe.Satellite.Map', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+		var imga = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion', {
+			maxZoom: 18,
+			minZoom: 5
+		});
+
+		var normal = L.layerGroup([normalm]),
+			image = L.layerGroup([imgm, imga]);
+
+		var baseLayers = {
+			"地图": normal,
+			"卫星": image,
+		}
+
+		var map = L.map('map', {
+			center: [29.62275, 106.492569],
+			zoom: 4,
+			layers: [normal],
+			zoomControl: false
+		});
+
+
+
+		L.control.layers(baseLayers, null).addTo(map);
+		L.control.zoom({
+			zoomInTitle: '放大',
+			zoomOutTitle: '缩小'
+		}).addTo(map);
+
+		// var marker = L.marker([29.62275, 106.492569]).addTo(map);
+		//数据 
+
+		// console.log(qiwenData)
+		// return;
+		L.tileLayer.drawImg(qiwenData, {
+			color: rgba, //阈值，必传参数
+			tile_size: 50, //设置渲染分辨率，越大越清晰
+			gradient: 0.25, //设置渐变度，越小渐变越小,最大0.5,0.25是完全渐变
+			opacity: 0.8,
+			// pane: 'radar',
+			// noWrap: true
+		}).addTo(map);
+	</script>
+
+</html>
